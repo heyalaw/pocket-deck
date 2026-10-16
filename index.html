@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#11131b">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<style>:root{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Pocket Deck</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,8 +30,7 @@
   --bg:#11131b; --surface:#1b1e2a; --ink:#e9ebf3; --muted:#9ba1b6; --line:#2c3042;
   --accent:#8f9bff; --accent-ink:#11131b; --accent-soft:#252b4d; --danger:#ff8a98; color-scheme:dark}
 html,body{height:100%;overflow:hidden;overscroll-behavior:none;touch-action:pan-y}
-html{background:linear-gradient(var(--bg) 50%,var(--surface) 50%)}
-body{background:transparent;color:var(--ink);font-family:var(--body);font-size:16px;-webkit-tap-highlight-color:transparent;overflow:hidden}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;-webkit-tap-highlight-color:transparent;overflow:hidden}
 button,input{font:inherit;color:inherit}
 button{background:none;border:0;cursor:pointer;padding:0}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
@@ -39,7 +38,7 @@ button{background:none;border:0;cursor:pointer;padding:0}
 svg{width:22px;height:22px;fill:currentColor;flex:none}
 .ell{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-.app{position:fixed;inset:0;left:0;right:0;padding-top:env(safe-area-inset-top,0px);box-sizing:border-box;display:grid;grid-template-rows:auto 1fr auto;max-width:720px;margin:0 auto}
+.app{height:100%;display:grid;grid-template-rows:auto 1fr auto;max-width:720px;margin:0 auto}
 .top{padding:14px 16px 0;display:grid;gap:12px}
 .brand{display:flex;align-items:center;justify-content:space-between;gap:12px}
 h1{font-family:var(--display);font-weight:700;font-size:1.6rem;letter-spacing:-.02em;margin:0}
@@ -91,7 +90,7 @@ img.cover{display:block}
 .empty h2{font-family:var(--display);color:var(--ink);font-size:1.3rem;margin:0;text-wrap:balance}
 .empty p{margin:0;max-width:36ch;line-height:1.5}
 
-.player{background:var(--surface);border-top:1px solid var(--line);padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));display:grid;gap:8px}
+.player{background:var(--surface);border-top:1px solid var(--line);padding:10px 16px 12px;display:grid;gap:8px}
 .np{display:flex;align-items:center;gap:10px;min-width:0}
 .np .thumb{width:42px;height:42px}
 .sleep-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-size:.85rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--muted);flex:none}
@@ -518,7 +517,7 @@ let toastT; function toast(msg, sticky){ let el = $('.toast'); if (!el){ el = do
   el.textContent = msg; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => el.hidden = true, sticky ? 15000 : 2600); }
 
 /* ---------- updates: reload when a newer version is published ---------- */
-const BUILD = '2026-10-15f';
+const BUILD = '2026-10-15g';
 async function checkUpdate(){
   try {
     const r = await fetch('./?u=' + Date.now(), { cache: 'no-store' }); if (!r.ok) return;
