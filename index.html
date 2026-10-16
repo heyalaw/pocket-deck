@@ -569,6 +569,21 @@ function deleteTrack(id){
 let toastT; function toast(msg, sticky){ let el = $('.toast'); if (!el){ el = document.createElement('div'); el.className = 'toast'; el.setAttribute('role','status'); document.body.appendChild(el); }
   el.textContent = msg; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => el.hidden = true, sticky ? 15000 : 2600); }
 
+/* ---------- updates: reload when a newer version is published ---------- */
+const BUILD = '2026-10-15b';
+async function checkUpdate(){
+  try {
+    const r = await fetch('./?u=' + Date.now(), { cache: 'no-store' }); if (!r.ok) return;
+    const m = (await r.text()).match(/const BUILD = '([^']+)'/);
+    if (!m || m[1] === BUILD) return;
+    let tried = null; try { tried = sessionStorage.getItem('pd-upd'); } catch(e){}
+    if (tried === m[1]) return;
+    try { sessionStorage.setItem('pd-upd', m[1]); } catch(e){}
+    if (audio.paused) location.reload(); else toast('Update ready. It loads next time you open Pocket Deck');
+  } catch(e){}
+}
+if (location.protocol.startsWith('http')){ checkUpdate(); document.addEventListener('visibilitychange', () => { if (!document.hidden) checkUpdate(); }); }
+
 /* ---------- boot ---------- */
 syncModes(); tickSleep(); render();
 try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch(e){}
