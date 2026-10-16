@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#11131b">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Pocket Deck</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -90,7 +90,7 @@ img.cover{display:block}
 .empty h2{font-family:var(--display);color:var(--ink);font-size:1.3rem;margin:0;text-wrap:balance}
 .empty p{margin:0;max-width:36ch;line-height:1.5}
 
-.player{background:var(--surface);border-top:1px solid var(--line);padding:10px 16px 12px;display:grid;gap:8px}
+.player{background:var(--surface);border-top:1px solid var(--line);padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));display:grid;gap:8px}
 .np{display:flex;align-items:center;gap:10px;min-width:0}
 .np .thumb{width:42px;height:42px}
 .sleep-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-size:.85rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--muted);flex:none}
@@ -517,7 +517,7 @@ let toastT; function toast(msg, sticky){ let el = $('.toast'); if (!el){ el = do
   el.textContent = msg; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => el.hidden = true, sticky ? 15000 : 2600); }
 
 /* ---------- updates: reload when a newer version is published ---------- */
-const BUILD = '2026-10-15d';
+const BUILD = '2026-10-15e';
 async function checkUpdate(){
   try {
     const r = await fetch('./?u=' + Date.now(), { cache: 'no-store' }); if (!r.ok) return;
